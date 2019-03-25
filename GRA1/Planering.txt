@@ -1,0 +1,8 @@
+
+Hangman program
+
+Variable that keeps track of attempts left
+
+If (letter == correct){
+ Add letter to row
+}
