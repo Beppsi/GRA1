@@ -1,0 +1,22 @@
+
+Ordval SWE:
+
+Yxa
+Pizza
+Bil
+Byxor
+Skor
+Telefon
+Processer
+Befolkning
+Dator
+
+Ordval ENG:
+
+Book
+Trade
+Neighborhood
+Ghost
+Virus
+Flex
+School
