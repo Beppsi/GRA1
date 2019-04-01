@@ -1,4 +1,4 @@
-/*worldlist.c*/
+/*wordlist.c*/
 #include <stdio.h>
 #include <string.h>
 int main()
