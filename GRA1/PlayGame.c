@@ -1,35 +1,55 @@
-
 #include <stdio.h>
 #include <string.h>
-
+#include <time.h>
+#include <stdlib.h>
 int main()
 {
-  char word[10][32]; // 2D array, 32 tecken på 10 rader
+  int index, size, v, i, l, score;
+  srand(time(0));
+  v = rand() % 10;
+  char word[10][32]; //[row] [character]
   char buf[32];
-  int index, size, x;
-  FILE *fd; //File descriptor
+  char W[32];
+  FILE *fd;
   index = 0;
+
   fd = fopen("word.txt", "r");
 
-  if (!fd) //Går det att öppna filen?
+  if (!fd) //If  word file doesn't exist
   {
-    fprintf(stderr, "no such file\n");
+    fprintf(stderr, "No such file\n");
     return -1;
   }
 
-  while (fgets(buf, 31, fd)) //fgets, läser filer, loopar så länge det finns text i filen.
+  while (fgets(buf, 31, fd))
   {
     size = strlen(buf) -1;
     buf[size] = 0;
-    strncpy(word[index], buf, 31); //Fyller array med innehåll från .txt
+    strncpy(word[index], buf, 31); //make array of word.txt
     index ++;
   }
 
   fclose(fd);
+  printf("%d\n", index);
 
-  for (i=0); i<index; i++)
-  {
-    printf("%s\n", word[i]);
-    return 0;
-  }
+    printf("%s\n", word[v]);
+  W = word[v];
+
+ for (i=0;i<W.length; i++)
+        {
+         printf("enter letter\n:");
+        scanf("%c", l);
+         if (strcmp(l, W[i]) == 0))
+         {
+           printf("correct\n");
+           score ++;
+         }
+         else if (strcmp(l, W[i]) !== 0))
+         {
+           printf("Wrong\n");
+         }
+
+      }
+
+ return 0;
 }

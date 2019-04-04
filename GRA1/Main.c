@@ -6,6 +6,8 @@ int main()
 // Funktioner:
       option()
       {
+        printf("Welcome to Hangman, choose option:\n");
+        printf("1.Play game\n2. Use custom word\n3. List words\n 4.Display toplist\n);
         scanf("%d", &opt);
       switch(opt)
        {
