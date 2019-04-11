@@ -1,64 +1,161 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include <stdlib.h>
-int main()
-{
-  int index, size, v, i, l, score, length;
-  srand(time(0));
-  v = rand() % 10;
-  char word[10][32]; //[row] [character]
-  char buf[32];
-  char W[32];
-  FILE *fd;
-  index = 0;
 
-  fd = fopen("word.txt", "r");
+int main() {
 
-  if (!fd) //If  word file doesn't exist
-    {
-      fprintf(stderr, "No such file\n");
-      return -1;
-    }//End of if
+	srand(time(NULL)); //Sets standard random
 
-  while (fgets(buf, 31, fd))
-    {
-      size = strlen(buf) -1;
-      buf[size] = 0;
-      strncpy(word[index], buf, 31); //make array of word.txt
-      index ++;
-    }
 
-  fclose(fd);
-  printf("%d\n", index);
+	 //This function imports words from .txt file
+	  char words[32][10];
+	  char buf[32];
+	  int index, size, x;
+	  FILE *fd;
+	  index = 0;
+	  fd = fopen("words.txt", "r"); //Reads file
 
-    printf("%s\n", word[v]);
-  wo = word[v];
-  lenght = strlen(wo)
+	  if (!fd)
+	  {
+	    fprintf(stderr, "No word file available\n");
+	    return -1;
+	  }
 
-void compare()
-  {  //compare guess input with letters in word
-    int right = 0; //Start with no right answers
-    for (i=0; i<length; i++);  //For loop goes trough every letter in random word
+	  while (fgets(buf, 31, fd))
+	  {
+	    size = strlen(buf) -1;
+	    buf[size] = 0;
+	    strncpy(words[index], buf, 31);
+	    index ++;
+	  }
+
+	  fclose(fd);
+// End of import
+
+
+
+
+	int Index = rand() % 20; //In a list of 20 words, this randomly picks one of them by row (Index)
+
+	int numLives = 5;  /*Should i add dynamic difficulity??*/
+	int RightAft = 0;
+	int RightBef = 0;
+
+	int Wlength = strlen(words[Index]); //
+
+
+	int letterGuessed[20] = { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }; //create an array which changes for every correct guess, note im assuming there arent any words longer than 20 in the game.
+
+	int end = 0;
+
+	int loopIndex = 0;
+	int reguessed = 0;
+
+	char guess[16];
+	char CharIn; //Letter input
+
+    // game loop
+	while ( RightAft < Wlength ) //While there are less correct guesses than letters left
+	{
+
+		printf("\n\nNew Turn....\nHangman Word:");
+
+		for( loopIndex = 0; loopIndex < Wlength; loopIndex++) //For loop prints a "_" for every letter not found
+		{
+
+			if(letterGuessed[loopIndex] == 1)
+			{
+				printf("%c",words[Index][loopIndex]); //Prints found letter in its position of the word
+			} else {
+				printf("_"); //Prints _ for unfound letter
+			}
+
+		}
+
+		printf("\n");
+
+		printf("Correct guesses:%d of %d \n",RightAft, WLength); //Lets player know how many guesses are correct
+		printf("Enter a guess letter:");
+		fgets(guess, 16, stdin);
+
+		if( strncmp(guess, "end", 4) == 0) { //If the player ends the game
+			end = 1;
+			break;
+		}
+
+		CharIn = guess[0];
+		reguessed = 0;
+
+		printf("You guessed:%c\n",CharIn);
+
+		RightBef = RightAft;
+
+		for( loopIndex = 0; loopIndex < Wlength; loopIndex++) {
+
+			if(letterGuessed[loopIndex] == 1) {
+				if(words[Index][loopIndex] == CharIn) {
+					reguessed = 1;
+					break;
+				}
+				continue;
+			}
+
+			if( CharIn == words[Index][loopIndex] ) {
+				letterGuessed[loopIndex] = 1;
+				RightAft++;
+			}
+
+		}
+
+		if( RightBef == RightAft && reguessed == 0) {
+			numLives--;
+			printf("Sorry, wrong guess\n");
+			switch (numLives)
+			{
+				case 0:
+				printf("\n ________\n|        | \n|        ( )\n|        /|\\ \n|         | \n|        / \\\n"); //5/5
+				break;
+				case 1:
+				printf("\n ________\n|        | \n|        ( )\n|        /|\\ \n|          \n|        \n"); //4/5
+				break;
+				case 2:
+				printf("\n ________\n|        | \n|        ( )\n|         |\n|          \n|        \n"); //3/5
+				break;
+				case 3:
+				printf("\n ________\n|        | \n|        ( )\n|         \n|          \n|        \n"); //2/5
+				break;
+				case 4:
+				printf("\n ________\n|        | \n|        \n|        \n|          \n        \n"); //1/5
+				break;
+			}
+			if (numLives == 0)
       {
-        if (strcmp(guess , word[i]) == 0)
-          {
-            right++; //Adds to right if guess is correct once
-          }//End of if
+				break;
+			}
+		} else if( reguessed == 1)
+    {
+			printf("Already Guessed!!\n");
+		} else {
+			printf("Correct guess :)\n");
+		}
 
-       if (right > 0) //As long as there is one letter correct
-         {
-           printf("Correct");
-         } //End of if
+	} // End of while loop
 
-       else  //No letters correct
-         {
-           printf("Wrong guess");
-         } //End of else
+	if( end == 1 )
+  {
+		printf("\nthe user end early\n");
+	}
+  else if (numLives == 0)
+  {
+		printf("\nSorry you lose, the word was: %s\n",
+		words[Index]);
+	}
+  else
+  {
+		printf("\nYOU WIN!!! :)\n");
+	}
 
-      }
-    break;
-  }//End of void compare()
 
-   return 0;
-  }
+	return 0;
+}
